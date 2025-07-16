@@ -1,0 +1,22 @@
+{
+  "accountAssociation": {
+    "header": "GENERATE_DI_WARPCAST_DEV_TOOLS",
+    "payload": "GENERATE_DI_WARPCAST_DEV_TOOLS", 
+    "signature": "GENERATE_DI_WARPCAST_DEV_TOOLS"
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Fragments",
+    "iconUrl": "https://fragments-murex.vercel.app/icon.png",
+    "homeUrl": "https://fragments-murex.vercel.app",
+    "imageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
+    "buttonTitle": "📖 Share Your Story",
+    "splashImageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
+    "splashBackgroundColor": "#0F0F23",
+    "webhookUrl": "https://fragments-murex.vercel.app/api/webhook",
+    "subtitle": "Anonymous Stories Platform",
+    "description": "Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection.",
+    "primaryCategory": "social",
+    "tags": ["stories", "anonymous", "social", "writing"]
+  }
+}

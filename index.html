@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments - Anonymous Stories Platform</title>
     
-    <!-- ✅ UPDATED FARCASTER FRAME META TAGS FOR VERCEL -->
+    <!-- ✅ FARCASTER FRAME META TAGS untuk VERCEL -->
     <meta name="fc:frame" content="vNext" />
     <meta name="fc:frame:image" content="https://fragments-murex.vercel.app/preview-fragments.png" />
     <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
     
-    <!-- Updated Button Strategy for Vercel -->
+    <!-- Button untuk Farcaster Frame -->
     <meta name="fc:frame:button:1" content="📖 Read Stories" />
     <meta name="fc:frame:button:1:action" content="link" />
     <meta name="fc:frame:button:1:target" content="https://fragments-murex.vercel.app" />
@@ -19,25 +19,16 @@
     <meta name="fc:frame:button:2:action" content="link" />
     <meta name="fc:frame:button:2:target" content="https://fragments-murex.vercel.app?tab=create" />
     
-    <!-- No POST URL needed for simple link-based frame -->
-    
-    <!-- ✅ Updated Open Graph Preview -->
-    <meta property="og:title" content="Fragments - Anonymous Stories Platform" />
-    <meta property="og:description" content="Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection." />
-    <meta property="og:image" content="https://fragments-murex.vercel.app/preview-fragments.png" />
-    <meta property="og:url" content="https://fragments-murex.vercel.app" />
-    <meta property="og:type" content="website" />
-    
-    <!-- ✅ Updated Farcaster Mini App -->
+    <!-- ✅ FARCASTER MINIAPP META TAG -->
     <meta name="fc:miniapp" content='{
-        "version": "vNext",
+        "version": "1",
         "name": "Fragments",
         "imageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
         "button": {
-            "title": "Share Your Story",
+            "title": "📖 Share Your Story",
             "action": {
                 "type": "launch_frame",
-                "url": "https://fragments-murex.vercel.app?tab=create",
+                "url": "https://fragments-murex.vercel.app",
                 "name": "Fragments - Anonymous Stories",
                 "splashImageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
                 "splashBackgroundColor": "#0F0F23"
@@ -47,13 +38,20 @@
         "imageAspectRatio": "1.91:1"
     }' />
 
-    <!-- Twitter Card for broader reach -->
+    <!-- Open Graph untuk sharing -->
+    <meta property="og:title" content="Fragments - Anonymous Stories Platform" />
+    <meta property="og:description" content="Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection." />
+    <meta property="og:image" content="https://fragments-murex.vercel.app/preview-fragments.png" />
+    <meta property="og:url" content="https://fragments-murex.vercel.app" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Fragments - Anonymous Stories Platform" />
     <meta name="twitter:description" content="Share your story. Find your voice. Stay anonymous." />
     <meta name="twitter:image" content="https://fragments-murex.vercel.app/preview-fragments.png" />
 
-    <!-- Additional SEO -->
+    <!-- SEO -->
     <meta name="description" content="Anonymous storytelling platform where your voice matters but your identity stays safe. Share dreams, fears, hopes, and authentic human experiences." />
     <meta name="keywords" content="anonymous stories, storytelling, safe space, human connection, privacy, authentic sharing, farcaster, web3, decentralized" />
     
@@ -68,10 +66,25 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     
-    <!-- Farcaster SDK -->
+    <!-- ✅ FARCASTER SDK - Updated untuk Vercel -->
     <script type="module">
+        // Import Farcaster SDK
         import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
-        sdk.actions.ready();
+        
+        // Check if running in miniapp context
+        const urlParams = new URLSearchParams(window.location.search);
+        const isMiniApp = window.location.pathname.startsWith('/mini') || 
+                         urlParams.get('miniApp') === 'true' ||
+                         window.parent !== window;
+        
+        if (isMiniApp) {
+            // Initialize SDK for miniapp
+            sdk.actions.ready();
+            console.log('🚀 Farcaster MiniApp SDK initialized');
+            
+            // Add miniapp-specific styling
+            document.documentElement.style.setProperty('--is-miniapp', '1');
+        }
     </script>
 </head>
 <body>
@@ -193,7 +206,7 @@
             </div>
         </div>
 
-        <!-- Quick Chat Tab (Legacy) -->
+        <!-- Quick Chat Tab -->
         <div id="chat-tab" class="tab-content hidden">
             <div class="chat-container">
                 <div class="chat-header">
