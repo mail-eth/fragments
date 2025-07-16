@@ -5,24 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments - Anonymous Stories Platform</title>
     
-    <!-- ✅ FARCASTER FRAME META TAGS - FIXED -->
+    <!-- ✅ FARCASTER FRAME META TAGS - Launch Frame Internal -->
     <meta name="fc:frame" content="vNext" />
     <meta name="fc:frame:image" content="https://xoxim.xyz/preview-fragments.png" />
     <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
+    
+    <!-- Button 1: Launch Miniapp di dalam Farcaster -->
     <meta name="fc:frame:button:1" content="📖 Read Stories" />
-    <meta name="fc:frame:button:1:action" content="link" />
+    <meta name="fc:frame:button:1:action" content="launch_frame" />
     <meta name="fc:frame:button:1:target" content="https://xoxim.xyz" />
+    
+    <!-- Button 2: Launch Miniapp dengan tab create -->
     <meta name="fc:frame:button:2" content="✍️ Write Story" />
-    <meta name="fc:frame:button:2:action" content="link" />
+    <meta name="fc:frame:button:2:action" content="launch_frame" />
     <meta name="fc:frame:button:2:target" content="https://xoxim.xyz?tab=create" />
     
-    <!-- ✅ FARCASTER MINIAPP META TAG - FIXED -->
+    <!-- ✅ FARCASTER MINIAPP META TAG - Launch Frame -->
     <meta name="fc:miniapp" content='{
-        "version": "1", 
+        "version": "1",
         "name": "Fragments",
         "imageUrl": "https://xoxim.xyz/preview-fragments.png",
         "button": {
-            "title": "📖 Share Your Story",
+            "title": "📖 Open Fragments",
             "action": {
                 "type": "launch_frame",
                 "url": "https://xoxim.xyz",
@@ -63,7 +67,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     
-    <!-- ✅ FARCASTER SDK -->
+    <!-- ✅ FARCASTER SDK - Updated untuk Launch Frame -->
     <script type="module">
         import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
         
@@ -71,11 +75,26 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isMiniApp = window.location.pathname.startsWith('/mini') || 
                          urlParams.get('miniApp') === 'true' ||
-                         window.parent !== window;
+                         urlParams.get('tab') === 'create' ||
+                         window.parent !== window ||
+                         window.location !== window.parent.location;
         
         if (isMiniApp) {
             sdk.actions.ready();
             console.log('🚀 Farcaster MiniApp SDK initialized');
+            
+            // Auto-switch to create tab if ?tab=create
+            if (urlParams.get('tab') === 'create') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    const createTab = document.querySelector('[data-tab="create"]');
+                    if (createTab) {
+                        createTab.click();
+                    }
+                });
+            }
+            
+            // Add miniapp-specific styling
+            document.documentElement.style.setProperty('--is-miniapp', '1');
         }
     </script>
 </head>
