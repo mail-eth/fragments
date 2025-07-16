@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragments - Anonymous Stories Platform</title>
+    
+    <!-- ✅ ENHANCED FARCASTER FRAME META TAGS -->
+    <meta name="fc:frame" content="vNext" />
+    <meta name="fc:frame:image" content="https://xoxim.xyz/preview-fragments.png" />
+    <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
+    
+    <!-- Hybrid Button Strategy -->
+    <meta name="fc:frame:button:1" content="📖 Read Stories" />
+    <meta name="fc:frame:button:1:action" content="link" />
+    <meta name="fc:frame:button:1:target" content="https://xoxim.xyz" />
+    
+    <meta name="fc:frame:button:2" content="✍️ Quick Share" />
+    <meta name="fc:frame:button:2:action" content="post" />
+    
+    <meta name="fc:frame:post_url" content="https://xoxim.xyz/.netlify/functions/frame" />
+    
+    <!-- ✅ Enhanced Open Graph Preview -->
+    <meta property="og:title" content="Fragments - Anonymous Stories Platform" />
+    <meta property="og:description" content="Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection." />
+    <meta property="og:image" content="https://xoxim.xyz/preview-fragments.png" />
+    <meta property="og:url" content="https://xoxim.xyz" />
+    <meta property="og:type" content="website" />
+    
+    <!-- ✅ Enhanced Farcaster Mini App -->
+    <meta name="fc:miniapp" content='{
+        "version": "vNext",
+        "name": "Fragments",
+        "imageUrl": "https://xoxim.xyz/preview-fragments.png",
+        "button": {
+            "title": "Share Your Story",
+            "action": {
+                "type": "launch_frame",
+                "url": "https://xoxim.xyz",
+                "name": "Fragments - Anonymous Stories",
+                "splashImageUrl": "https://xoxim.xyz/preview-fragments.png",
+                "splashBackgroundColor": "#0F0F23"
+            }
+        },
+        "homeUrl": "https://xoxim.xyz",
+        "imageAspectRatio": "1.91:1"
+    }' />
+
+    <!-- Twitter Card for broader reach -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fragments - Anonymous Stories Platform" />
+    <meta name="twitter:description" content="Share your story. Find your voice. Stay anonymous." />
+    <meta name="twitter:image" content="https://xoxim.xyz/preview-fragments.png" />
+
+    <!-- Additional SEO -->
+    <meta name="description" content="Anonymous storytelling platform where your voice matters but your identity stays safe. Share dreams, fears, hopes, and authentic human experiences." />
+    <meta name="keywords" content="anonymous stories, storytelling, safe space, human connection, privacy, authentic sharing, farcaster, web3, decentralized" />
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="asset/icon.png" />
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="fragments-style.css">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    
+    <!-- Farcaster SDK -->
+    <script type="module">
+        import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
+        sdk.actions.ready();
+    </script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <h1>Fragments</h1>
+        <p class="subtitle">Anonymous Stories Platform</p>
+        <p class="tagline">Share your story. Find your voice. Stay anonymous.</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs">
+        <div class="nav-tab active" data-tab="stories">
+            <span class="tab-icon">📖</span>
+            <span class="tab-text">Stories</span>
+        </div>
+        <div class="nav-tab" data-tab="create">
+            <span class="tab-icon">✍️</span>
+            <span class="tab-text">Write</span>
+        </div>
+        <div class="nav-tab" data-tab="discover">
+            <span class="tab-icon">🔍</span>
+            <span class="tab-text">Discover</span>
+        </div>
+        <div class="nav-tab" data-tab="chat">
+            <span class="tab-icon">💬</span>
+            <span class="tab-text">Quick Chat</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Stories Tab -->
+        <div id="stories-tab" class="tab-content">
+            <div class="stories-grid" id="stories-container">
+                <div class="loading" id="stories-loading">
+                    <div class="spinner"></div>
+                    <p>Loading stories...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Tab -->
+        <div id="create-tab" class="tab-content hidden">
+            <div class="story-form">
+                <div class="form-header">
+                    <h2>Share Your Story</h2>
+                    <p>Your voice matters. Share anonymously and connect with others.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="story-content">Your Story</label>
+                    <textarea 
+                        id="story-content" 
+                        class="form-input story-textarea" 
+                        placeholder="Share your thoughts, dreams, fears, or experiences... Your identity is safe here."
+                        maxlength="2000"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="char-count">0</span>/2000
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Category (optional)</label>
+                    <div class="category-select">
+                        <div class="category-pill" data-category="life">💫 Life</div>
+                        <div class="category-pill" data-category="dreams">🌙 Dreams</div>
+                        <div class="category-pill" data-category="fears">🌊 Fears</div>
+                        <div class="category-pill" data-category="love">💕 Love</div>
+                        <div class="category-pill" data-category="growth">🌱 Growth</div>
+                        <div class="category-pill" data-category="confession">🤫 Confession</div>
+                        <div class="category-pill" data-category="hope">✨ Hope</div>
+                        <div class="category-pill" data-category="advice">💡 Advice</div>
+                        <div class="category-pill" data-category="gratitude">🙏 Gratitude</div>
+                        <div class="category-pill" data-category="other">🔮 Other</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="story-mood">Mood (optional)</label>
+                    <div class="mood-select">
+                        <div class="mood-pill" data-mood="happy">😊 Happy</div>
+                        <div class="mood-pill" data-mood="sad">😢 Sad</div>
+                        <div class="mood-pill" data-mood="excited">🎉 Excited</div>
+                        <div class="mood-pill" data-mood="peaceful">😌 Peaceful</div>
+                        <div class="mood-pill" data-mood="anxious">😰 Anxious</div>
+                        <div class="mood-pill" data-mood="grateful">🥺 Grateful</div>
+                        <div class="mood-pill" data-mood="hopeful">🌈 Hopeful</div>
+                    </div>
+                </div>
+
+                <button class="submit-btn" id="share-story">
+                    <span class="btn-text">Share Anonymously</span>
+                    <span class="btn-icon">🚀</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Discover Tab -->
+        <div id="discover-tab" class="tab-content hidden">
+            <div class="discover-content">
+                <div class="discover-filters">
+                    <h2>Discover Stories</h2>
+                    <div class="filter-chips">
+                        <div class="filter-chip active" data-filter="all">All Stories</div>
+                        <div class="filter-chip" data-filter="trending">🔥 Trending</div>
+                        <div class="filter-chip" data-filter="recent">🕒 Recent</div>
+                        <div class="filter-chip" data-filter="popular">💜 Popular</div>
+                    </div>
+                </div>
+                <div class="discover-grid" id="discover-container">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Discovering stories...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Chat Tab (Legacy) -->
+        <div id="chat-tab" class="tab-content hidden">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>Quick Thoughts</h2>
+                    <p>Share quick anonymous messages (classic mode)</p>
+                </div>
+                
+                <ul id="chat-list" class="chat-list"></ul>
+                
+                <div class="chat-input-area">
+                    <input type="text" id="username" placeholder="Who's whispering?" />
+                    <input type="text" id="message" placeholder="Say something..." />
+                    <button id="send-btn" class="chat-send-btn">▶</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="quick-write" title="Quick Write">
+        <span>✍️</span>
+    </button>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <h3>Delete Story?</h3>
+            <p>Are you sure you want to delete this story? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancel-btn" class="btn-secondary">Cancel</button>
+                <button id="confirm-btn" class="btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story Detail Modal -->
+    <div id="story-modal" class="modal">
+        <div class="modal-content story-detail">
+            <button class="modal-close" id="close-story-modal">×</button>
+            <div id="story-detail-content">
+                <!-- Story details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p id="secret-gift" class="hidden-egg">fragments of the soul</p>
+        <p>A space for anonymous stories and human connection.</p>
+        <p>Built with 💜 by <a href="mailto:maileth389@gmail.com">@xoxim</a> • © 2025</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="fragments-app.js"></script>
+</body>
+</html>
