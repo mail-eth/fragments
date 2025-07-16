@@ -4,13 +4,13 @@
     "payload": "eyJkb21haW4iOiJ4b3hpbS54eXoifQ",
     "signature": "i110S279iqgMwFA2/hlXfznCl056UWz7H4+X7mCqE+I++BDRGSzY9ObFiTGZVjY1/nrLdT/s+xTN3PSg6fbpfBw="
   },
-  "miniapp": {
+  "frame": {
     "version": "1",
     "name": "Fragments",
     "iconUrl": "https://xoxim.xyz/icon.png",
     "homeUrl": "https://xoxim.xyz",
     "imageUrl": "https://xoxim.xyz/preview-fragments.png",
-    "buttonTitle": "📖 Share Your Story",
+    "buttonTitle": "📖 Open Fragments",
     "splashImageUrl": "https://xoxim.xyz/preview-fragments.png",
     "splashBackgroundColor": "#0F0F23",
     "webhookUrl": "https://xoxim.xyz/api/webhook",

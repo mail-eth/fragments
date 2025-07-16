@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments - Anonymous Stories Platform</title>
     
-    <!-- ✅ FARCASTER FRAME META TAGS - Launch Frame Internal -->
-    <meta name="fc:frame" content="vNext" />
-    <meta name="fc:frame:image" content="https://xoxim.xyz/preview-fragments.png" />
-    <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
+    <!-- ✅ FARCASTER MINIAPP EMBED - Primary Method -->
+    <meta name="fc:frame" content='{
+        "version": "1",
+        "imageUrl": "https://xoxim.xyz/preview-fragments.png",
+        "button": {
+            "title": "📖 Open Fragments",
+            "action": {
+                "type": "launch_frame",
+                "url": "https://xoxim.xyz",
+                "name": "Fragments - Anonymous Stories",
+                "splashImageUrl": "https://xoxim.xyz/preview-fragments.png",
+                "splashBackgroundColor": "#0F0F23"
+            }
+        }
+    }' />
     
-    <!-- Button 1: Launch Miniapp di dalam Farcaster -->
-    <meta name="fc:frame:button:1" content="📖 Read Stories" />
-    <meta name="fc:frame:button:1:action" content="launch_frame" />
-    <meta name="fc:frame:button:1:target" content="https://xoxim.xyz" />
-    
-    <!-- Button 2: Launch Miniapp dengan tab create -->
-    <meta name="fc:frame:button:2" content="✍️ Write Story" />
-    <meta name="fc:frame:button:2:action" content="launch_frame" />
-    <meta name="fc:frame:button:2:target" content="https://xoxim.xyz?tab=create" />
-    
-    <!-- ✅ FARCASTER MINIAPP META TAG - Launch Frame -->
+    <!-- ✅ FARCASTER MINIAPP META TAG - Backup Method -->
     <meta name="fc:miniapp" content='{
         "version": "1",
         "name": "Fragments",
@@ -67,7 +68,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     
-    <!-- ✅ FARCASTER SDK - Updated untuk Launch Frame -->
+    <!-- ✅ FARCASTER SDK - Enhanced for MiniApp -->
     <script type="module">
         import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
         
@@ -79,9 +80,10 @@
                          window.parent !== window ||
                          window.location !== window.parent.location;
         
-        if (isMiniApp) {
+        // Always initialize SDK for better compatibility
+        try {
             sdk.actions.ready();
-            console.log('🚀 Farcaster MiniApp SDK initialized');
+            console.log('🚀 Farcaster SDK initialized');
             
             // Auto-switch to create tab if ?tab=create
             if (urlParams.get('tab') === 'create') {
@@ -93,8 +95,13 @@
                 });
             }
             
-            // Add miniapp-specific styling
-            document.documentElement.style.setProperty('--is-miniapp', '1');
+            // Add miniapp-specific styling if detected
+            if (isMiniApp) {
+                document.documentElement.style.setProperty('--is-miniapp', '1');
+                console.log('📱 Running in MiniApp context');
+            }
+        } catch (error) {
+            console.log('ℹ️ SDK initialization skipped (not in Farcaster context)');
         }
     </script>
 </head>
