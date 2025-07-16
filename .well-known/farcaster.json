@@ -9,14 +9,28 @@
     "name": "Fragments",
     "iconUrl": "https://xoxim.xyz/icon.png",
     "homeUrl": "https://xoxim.xyz",
-    "imageUrl": "https://xoxim.xyz/preview-fragments.png",
-    "buttonTitle": "📖 Open Fragments",
-    "splashImageUrl": "https://xoxim.xyz/preview-fragments.png",
+    "splashImageUrl": "https://xoxim.xyz/icon.png",
     "splashBackgroundColor": "#0F0F23",
     "webhookUrl": "https://xoxim.xyz/api/webhook",
     "subtitle": "Anonymous Stories Platform",
     "description": "Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection.",
+    "screenshotUrls": [
+      "https://xoxim.xyz/screenshot1.png",
+      "https://xoxim.xyz/screenshot2.png",
+      "https://xoxim.xyz/screenshot3.png"
+    ],
     "primaryCategory": "social",
-    "tags": ["stories", "anonymous", "social", "writing", "farcaster"]
+    "tags": [
+      "stories",
+      "anonymous",
+      "social",
+      "writing",
+      "farcaster"
+    ],
+    "heroImageUrl": "https://xoxim.xyz/preview-fragments.png",
+    "tagline": "Anonymous Stories Platform",
+    "ogTitle": "Fragments",
+    "ogDescription": "Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection.",
+    "ogImageUrl": "https://xoxim.xyz/preview-fragments.png"
   }
 }
