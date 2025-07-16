@@ -15,7 +15,16 @@
         },
         {
           "key": "Cache-Control",
-          "value": "public, max-age=300, s-maxage=300"
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/preview-fragments.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
         }
       ]
     }

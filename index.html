@@ -5,51 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments - Anonymous Stories Platform</title>
     
-    <!-- ✅ FARCASTER FRAME META TAGS untuk VERCEL -->
+    <!-- ✅ FARCASTER FRAME META TAGS - FIXED -->
     <meta name="fc:frame" content="vNext" />
-    <meta name="fc:frame:image" content="https://fragments-murex.vercel.app/preview-fragments.png" />
+    <meta name="fc:frame:image" content="https://xoxim.xyz/preview-fragments.png" />
     <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
-    
-    <!-- Button untuk Farcaster Frame -->
     <meta name="fc:frame:button:1" content="📖 Read Stories" />
     <meta name="fc:frame:button:1:action" content="link" />
-    <meta name="fc:frame:button:1:target" content="https://fragments-murex.vercel.app" />
-    
+    <meta name="fc:frame:button:1:target" content="https://xoxim.xyz" />
     <meta name="fc:frame:button:2" content="✍️ Write Story" />
     <meta name="fc:frame:button:2:action" content="link" />
-    <meta name="fc:frame:button:2:target" content="https://fragments-murex.vercel.app?tab=create" />
+    <meta name="fc:frame:button:2:target" content="https://xoxim.xyz?tab=create" />
     
-    <!-- ✅ FARCASTER MINIAPP META TAG -->
+    <!-- ✅ FARCASTER MINIAPP META TAG - FIXED -->
     <meta name="fc:miniapp" content='{
-        "version": "1",
+        "version": "1", 
         "name": "Fragments",
-        "imageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
+        "imageUrl": "https://xoxim.xyz/preview-fragments.png",
         "button": {
             "title": "📖 Share Your Story",
             "action": {
                 "type": "launch_frame",
-                "url": "https://fragments-murex.vercel.app",
+                "url": "https://xoxim.xyz",
                 "name": "Fragments - Anonymous Stories",
-                "splashImageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
+                "splashImageUrl": "https://xoxim.xyz/preview-fragments.png",
                 "splashBackgroundColor": "#0F0F23"
             }
         },
-        "homeUrl": "https://fragments-murex.vercel.app",
+        "homeUrl": "https://xoxim.xyz",
         "imageAspectRatio": "1.91:1"
     }' />
 
-    <!-- Open Graph untuk sharing -->
+    <!-- Open Graph -->
     <meta property="og:title" content="Fragments - Anonymous Stories Platform" />
     <meta property="og:description" content="Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection." />
-    <meta property="og:image" content="https://fragments-murex.vercel.app/preview-fragments.png" />
-    <meta property="og:url" content="https://fragments-murex.vercel.app" />
+    <meta property="og:image" content="https://xoxim.xyz/preview-fragments.png" />
+    <meta property="og:url" content="https://xoxim.xyz" />
     <meta property="og:type" content="website" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Fragments - Anonymous Stories Platform" />
     <meta name="twitter:description" content="Share your story. Find your voice. Stay anonymous." />
-    <meta name="twitter:image" content="https://fragments-murex.vercel.app/preview-fragments.png" />
+    <meta name="twitter:image" content="https://xoxim.xyz/preview-fragments.png" />
 
     <!-- SEO -->
     <meta name="description" content="Anonymous storytelling platform where your voice matters but your identity stays safe. Share dreams, fears, hopes, and authentic human experiences." />
@@ -66,9 +63,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     
-    <!-- ✅ FARCASTER SDK - Updated untuk Vercel -->
+    <!-- ✅ FARCASTER SDK -->
     <script type="module">
-        // Import Farcaster SDK
         import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
         
         // Check if running in miniapp context
@@ -78,12 +74,8 @@
                          window.parent !== window;
         
         if (isMiniApp) {
-            // Initialize SDK for miniapp
             sdk.actions.ready();
             console.log('🚀 Farcaster MiniApp SDK initialized');
-            
-            // Add miniapp-specific styling
-            document.documentElement.style.setProperty('--is-miniapp', '1');
         }
     </script>
 </head>
