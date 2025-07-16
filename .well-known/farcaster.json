@@ -1,22 +1,22 @@
 {
   "accountAssociation": {
-    "header": "GENERATE_DI_WARPCAST_DEV_TOOLS",
-    "payload": "GENERATE_DI_WARPCAST_DEV_TOOLS", 
-    "signature": "GENERATE_DI_WARPCAST_DEV_TOOLS"
+    "header": "eyJmaWQiOjI5OTM1NiwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDdlNjgzYTUxQTcyMjgzODAxQkQzZjNGMDg5MDA0ZWM4QThDZkJFNzgifQ",
+    "payload": "eyJkb21haW4iOiJ4b3hpbS54eXoifQ",
+    "signature": "i110S279iqgMwFA2/hlXfznCl056UWz7H4+X7mCqE+I++BDRGSzY9ObFiTGZVjY1/nrLdT/s+xTN3PSg6fbpfBw="
   },
   "miniapp": {
     "version": "1",
     "name": "Fragments",
-    "iconUrl": "https://fragments-murex.vercel.app/icon.png",
-    "homeUrl": "https://fragments-murex.vercel.app",
-    "imageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
+    "iconUrl": "https://xoxim.xyz/icon.png",
+    "homeUrl": "https://xoxim.xyz",
+    "imageUrl": "https://xoxim.xyz/preview-fragments.png",
     "buttonTitle": "📖 Share Your Story",
-    "splashImageUrl": "https://fragments-murex.vercel.app/preview-fragments.png",
+    "splashImageUrl": "https://xoxim.xyz/preview-fragments.png",
     "splashBackgroundColor": "#0F0F23",
-    "webhookUrl": "https://fragments-murex.vercel.app/api/webhook",
+    "webhookUrl": "https://xoxim.xyz/api/webhook",
     "subtitle": "Anonymous Stories Platform",
     "description": "Share your story. Find your voice. Stay anonymous. A safe space for authentic human connection.",
     "primaryCategory": "social",
-    "tags": ["stories", "anonymous", "social", "writing"]
+    "tags": ["stories", "anonymous", "social", "writing", "farcaster"]
   }
 }
