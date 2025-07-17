@@ -12,6 +12,9 @@ import {
 // Import Firebase config from external file
 import { firebaseConfig } from "./firebase-config.js";
 
+// Import Daily Quotes system
+import { getDailyQuote, shouldShowDailyQuote, markQuoteAsShown } from "./quotes.js";
+
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const database = getDatabase(firebaseApp);
@@ -35,7 +38,113 @@ class FragmentsApp {
         this.setupFirebaseListeners();
         this.loadUserData();
         this.initializeAnimations();
+        
+        // Show daily quote if not shown today
+        setTimeout(() => {
+            this.showDailyQuoteIfNeeded();
+        }, 2000); // Show after 2 seconds to let page load
+        
         console.log('🚀 Fragments App Initialized');
+    }
+
+    // ====== DAILY QUOTES SYSTEM ======
+    showDailyQuoteIfNeeded() {
+        if (shouldShowDailyQuote()) {
+            this.showDailyQuote();
+        }
+    }
+
+    showDailyQuote() {
+        const todaysQuote = getDailyQuote();
+        
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: "✨ Daily Inspiration",
+                html: `
+                    <div style="text-align: center; padding: 1.5rem;">
+                        <div style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem; color: #374151; font-style: italic;">
+                            "${todaysQuote.quote}"
+                        </div>
+                        <div style="font-weight: 600; color: #8B5CF6; font-size: 1rem;">
+                            — ${todaysQuote.author}
+                        </div>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #E5E7EB; color: #6B7280; font-size: 0.9rem;">
+                            💜 Daily inspiration for Fragments community
+                        </div>
+                    </div>
+                `,
+                icon: null,
+                showCloseButton: true,
+                confirmButtonText: "Thank you ✨",
+                confirmButtonColor: "#8B5CF6",
+                customClass: {
+                    popup: 'daily-quote-modal',
+                    title: 'daily-quote-title',
+                    htmlContainer: 'daily-quote-content'
+                },
+                backdrop: 'rgba(15, 15, 35, 0.8)',
+                allowOutsideClick: true,
+                timer: 15000, // Auto close after 15 seconds
+                timerProgressBar: true
+            }).then(() => {
+                markQuoteAsShown();
+            });
+        } else {
+            // Fallback to toast if SweetAlert not available
+            this.showQuoteToast(todaysQuote);
+            markQuoteAsShown();
+        }
+        
+        // Mark as shown regardless
+        markQuoteAsShown();
+    }
+
+    showQuoteToast(quote) {
+        const toast = document.createElement('div');
+        toast.className = 'daily-quote-toast';
+        toast.innerHTML = `
+            <div class="quote-toast-content">
+                <div class="quote-toast-header">
+                    <span class="quote-toast-icon">✨</span>
+                    <span class="quote-toast-title">Daily Inspiration</span>
+                    <button class="quote-toast-close">×</button>
+                </div>
+                <div class="quote-toast-quote">
+                    "${quote.quote}"
+                </div>
+                <div class="quote-toast-author">
+                    — ${quote.author}
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(toast);
+
+        // Add event listener for close button
+        const closeBtn = toast.querySelector('.quote-toast-close');
+        closeBtn.addEventListener('click', () => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 300);
+        });
+
+        // Animate in
+        setTimeout(() => toast.classList.add('show'), 100);
+
+        // Auto remove after 10 seconds
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, 300);
+            }
+        }, 10000);
     }
 
     generateAnonymousUser() {
@@ -135,8 +244,8 @@ class FragmentsApp {
         // Chat functionality (legacy)
         this.setupChatControls();
 
-        // Easter egg
-        this.setupEasterEgg();
+        // Footer quote trigger - UPDATED
+        this.setupQuoteTrigger();
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => this.handleKeyboardShortcuts(e));
@@ -194,10 +303,11 @@ class FragmentsApp {
         }
     }
 
-    setupEasterEgg() {
+    // Updated quote trigger - now shows daily quote
+    setupQuoteTrigger() {
         const secretGift = document.getElementById('secret-gift');
         if (secretGift) {
-            secretGift.addEventListener('click', () => this.triggerEasterEgg());
+            secretGift.addEventListener('click', () => this.showDailyQuote());
         }
     }
 
@@ -320,9 +430,6 @@ class FragmentsApp {
         }
 
         try {
-            // Check for easter eggs
-            this.checkEasterEgg(content);
-
             const storyData = {
                 content: content,
                 author: this.currentUser.name,
@@ -613,8 +720,6 @@ class FragmentsApp {
         if (!message) return;
 
         try {
-            this.checkEasterEgg(message);
-
             const chatData = {
                 user: username,
                 message: message,
@@ -684,52 +789,6 @@ class FragmentsApp {
             console.error('Error deleting message:', error);
             this.showToast('Failed to delete message.', 'danger');
         }
-    }
-
-    // ====== EASTER EGG SYSTEM ======
-    checkEasterEgg(content) {
-        const secretCodes = [
-            "lost", "help", "why", "here", "empty", "alone", "dark", "rest", "peace",
-            "fragments", "soul", "dream", "hope", "love", "fear", "void", "echo",
-            "tersesat", "tolong", "kenapa", "kosong", "sendiri", "gelap", "damai",
-            "lelah", "sepi", "takdir", "percaya", "sunyi", "jiwa", "mimpi"
-        ];
-
-        const text = content.toLowerCase().trim();
-        
-        if (secretCodes.some(code => text.includes(code)) && !localStorage.getItem('eggFound')) {
-            this.triggerEasterEgg();
-        }
-    }
-
-    triggerEasterEgg() {
-        if (localStorage.getItem('eggFound')) {
-            this.showToast('You already found the easter egg! 🎉', 'info');
-            return;
-        }
-
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                title: "🎉 Hidden Fragment Discovered!",
-                html: `
-                    <div style="text-align: center; padding: 1rem;">
-                        <p style="margin-bottom: 1rem;">You've unlocked a piece of the hidden story...</p>
-                        <p style="margin-bottom: 1rem;">Your words have power. Your story matters.</p>
-                        <p style="margin-bottom: 1.5rem;">Take this moment to reflect on your journey.</p>
-                        <div style="background: linear-gradient(135deg, #8B5CF6, #EC4899); padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
-                            <strong style="color: white;">DM 'FRAGMENTS' to @xoxim on any platform to claim your reward! 🎁</strong>
-                        </div>
-                    </div>
-                `,
-                icon: "success",
-                confirmButtonText: "Beautiful ✨",
-                confirmButtonColor: "#8B5CF6"
-            });
-        } else {
-            this.showToast('🎉 Hidden Fragment Discovered! DM "FRAGMENTS" to @xoxim for your reward!', 'success');
-        }
-
-        localStorage.setItem('eggFound', 'true');
     }
 
     // ====== UTILITY FUNCTIONS ======
@@ -920,117 +979,133 @@ class FragmentsApp {
     }
 }
 
-// ====== ADDITIONAL STYLES FOR TOAST NOTIFICATIONS ======
-const toastStyles = `
+// ====== ADDITIONAL STYLES FOR DAILY QUOTES ======
+const quoteStyles = `
 <style>
-.toast {
+/* Daily Quote Toast Styles */
+.daily-quote-toast {
     position: fixed;
     top: 2rem;
     right: 2rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem;
+    background: linear-gradient(135deg, #8B5CF6, #EC4899);
+    border-radius: var(--radius-lg);
+    padding: 0;
     z-index: 1001;
     transform: translateX(400px);
-    transition: transform 0.3s ease;
-    box-shadow: 0 10px 30px var(--shadow);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
     backdrop-filter: blur(10px);
-    max-width: 350px;
+    max-width: 400px;
+    min-width: 300px;
 }
 
-.toast.show {
+.daily-quote-toast.show {
     transform: translateX(0);
 }
 
-.toast-content {
+.quote-toast-content {
+    background: rgba(255, 255, 255, 0.95);
+    margin: 2px;
+    border-radius: calc(var(--radius-lg) - 2px);
+    padding: 1.5rem;
+    color: #374151;
+}
+
+.quote-toast-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: space-between;
+    margin-bottom: 1rem;
 }
 
-.toast-icon {
+.quote-toast-icon {
     font-size: 1.2rem;
-    flex-shrink: 0;
 }
 
-.toast-message {
-    color: var(--text);
-    font-weight: 500;
-    line-height: 1.4;
-}
-
-.toast-success {
-    border-left: 4px solid var(--accent);
-}
-
-.toast-danger {
-    border-left: 4px solid var(--danger);
-}
-
-.toast-warning {
-    border-left: 4px solid var(--warning);
-}
-
-.toast-info {
-    border-left: 4px solid var(--primary);
-}
-
-.empty-state {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: var(--text-muted);
-}
-
-.empty-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.7;
-}
-
-.empty-state h3 {
-    font-size: 1.5rem;
-    color: var(--text);
-    margin-bottom: 1rem;
+.quote-toast-title {
     font-weight: 600;
+    color: #8B5CF6;
+    flex: 1;
+    margin-left: 0.5rem;
 }
 
-.empty-state p {
-    margin-bottom: 2rem;
-    line-height: 1.6;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
+.quote-toast-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
 }
 
-.empty-message {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-muted);
+.quote-toast-close:hover {
+    background: #F3F4F6;
+    color: #374151;
+}
+
+.quote-toast-quote {
     font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.quote-toast-author {
+    font-weight: 600;
+    color: #8B5CF6;
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+/* SweetAlert2 Custom Styles */
+.daily-quote-modal {
+    border-radius: var(--radius-lg) !important;
+    background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
+}
+
+.daily-quote-title {
+    color: #8B5CF6 !important;
+    font-weight: 600 !important;
+}
+
+.daily-quote-content {
+    padding: 0 !important;
 }
 
 @media (max-width: 768px) {
-    .toast {
+    .daily-quote-toast {
         top: 1rem;
         right: 1rem;
         left: 1rem;
         transform: translateY(-100px);
         max-width: none;
+        min-width: auto;
     }
     
-    .toast.show {
+    .daily-quote-toast.show {
         transform: translateY(0);
+    }
+    
+    .quote-toast-content {
+        padding: 1.25rem;
     }
 }
 </style>
 `;
 
-// Inject toast styles safely
-if (!document.querySelector('#toast-styles')) {
+// Inject quote styles safely
+if (!document.querySelector('#quote-styles')) {
     const styleElement = document.createElement('div');
-    styleElement.id = 'toast-styles';
-    styleElement.innerHTML = toastStyles;
+    styleElement.id = 'quote-styles';
+    styleElement.innerHTML = quoteStyles;
     document.head.appendChild(styleElement);
 }
 
@@ -1047,6 +1122,7 @@ function initFragmentsApp() {
         
         console.log('🔮 Fragments - Where stories find their voice');
         console.log('💜 Built with love by @xoxim');
+        console.log('✨ Daily quotes system enabled');
     }
 }
 
