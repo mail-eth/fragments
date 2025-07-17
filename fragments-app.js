@@ -577,10 +577,22 @@ class FragmentsApp {
             chip.addEventListener('click', () => this.setFilter(chip));
         });
 
-        // FAB button
+        // FAB buttons
         const fab = document.getElementById('quick-write');
+        const soulMenuFab = document.getElementById('open-soul-menu');
+        
         if (fab) {
             fab.addEventListener('click', () => this.quickWrite());
+        }
+        
+        if (soulMenuFab) {
+            soulMenuFab.addEventListener('click', () => {
+                if (this.emotionalEcho && this.emotionalEcho.soulMemory) {
+                    this.showFooterMenu();
+                } else {
+                    this.showFallbackMessage('Soul Menu not available - Emotional Echo system not loaded');
+                }
+            });
         }
 
         // Modal controls

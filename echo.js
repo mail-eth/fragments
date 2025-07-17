@@ -1118,6 +1118,91 @@ class EmotionalEcho {
         };
     }
 
+    // Method to open Soul Menu directly
+    openSoulMenu() {
+        // Delegate to the main app if available
+        if (typeof window !== 'undefined' && window.fragmentsApp && window.fragmentsApp.showFooterMenu) {
+            return window.fragmentsApp.showFooterMenu();
+        } else {
+            console.warn('Soul Menu: Main app not available');
+            return this.showDirectSoulMenu();
+        }
+    }
+
+    // Direct Soul Menu implementation (fallback)
+    async showDirectSoulMenu() {
+        const isDeepMode = this.soulMemory.isDeepMode;
+        const soulLevel = this.soulMemory.currentLevel;
+        
+        let buttons = {
+            'quote': '✨ Daily Quote',
+            'vault': '🗃️ Soul Vault'
+        };
+
+        if (isDeepMode) {
+            buttons['whisper'] = '💫 Add Whisper';
+            buttons['export'] = '💾 Export Soul Data';
+        }
+
+        // Create buttons HTML
+        const buttonsHTML = Object.keys(buttons).map(key => 
+            `<button class="soul-menu-button" data-action="${key}">${buttons[key]}</button>`
+        ).join('');
+
+        if (typeof Swal !== 'undefined') {
+            const result = await Swal.fire({
+                title: `🔮 Soul Menu (${soulLevel})`,
+                html: `
+                    <div style="text-align: center; padding: 1rem;">
+                        <p style="color: #6B7280; margin-bottom: 1.5rem;">
+                            What calls to your soul today?
+                        </p>
+                        <div class="soul-menu-buttons">
+                            ${buttonsHTML}
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'Close',
+                customClass: {
+                    popup: 'soul-menu-modal'
+                },
+                didOpen: (popup) => {
+                    const menuButtons = popup.querySelectorAll('.soul-menu-button');
+                    menuButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const action = button.dataset.action;
+                            Swal.close();
+                            this.handleDirectMenuChoice(action);
+                        });
+                    });
+                }
+            });
+        }
+    }
+
+    // Handle direct menu choices
+    async handleDirectMenuChoice(choice) {
+        switch (choice) {
+            case 'quote':
+                if (typeof window !== 'undefined' && window.fragmentsApp) {
+                    const dailyQuote = window.getDailyQuote ? window.getDailyQuote() : { quote: 'Inspiration awaits...', author: 'Unknown' };
+                    window.fragmentsApp.showEnhancedDailyQuote(dailyQuote);
+                }
+                break;
+            case 'vault':
+                await this.showVaultExplorer();
+                break;
+            case 'whisper':
+                await this.showWhisperWallPrompt();
+                break;
+            case 'export':
+                this.exportSoulData();
+                break;
+        }
+    }
+
     // Method to manually trigger evolution (for testing)
     forceEvolution(level) {
         if (['discovering', 'aware', 'connected', 'awakened'].includes(level)) {
