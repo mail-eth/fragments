@@ -61,8 +61,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="icon.png" />
     
-    <!-- Styles -->
+    <!-- ✅ MAIN STYLES -->
     <link rel="stylesheet" href="fragments-style.css">
+    <!-- ✅ EMOTIONAL ECHO STYLES -->
+    <link rel="stylesheet" href="echo-styles.css">
     
     <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -270,14 +272,20 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- ✅ FOOTER WITH EMOTIONAL ECHO TRIGGER -->
     <footer class="footer">
         <p id="secret-gift" class="hidden-egg">fragments of the soul</p>
         <p>A space for anonymous stories and human connection.</p>
         <p>Built with 💜 by <a href="mailto:maileth389@gmail.com">@xoxim</a> • © 2025</p>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- ✅ JAVASCRIPT FILES - PROPER ORDER -->
+    <!-- Load echo.js first as a module -->
+    <script type="module" src="echo.js"></script>
+    <!-- Then load main app -->
     <script type="module" src="fragments-app.js"></script>
+    
+    <!-- Optional debug script for development -->
+    <!-- <script src="debug-emotional-echo.js"></script> -->
 </body>
 </html>
