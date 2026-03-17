@@ -1,0 +1,20 @@
+{
+  "name": "fragments-v2",
+  "version": "1.0.0",
+  "description": "Platform cerita anonim dan chat real-time",
+  "main": "app.js",
+  "scripts": {
+    "party": "partykit dev party/server.ts",
+    "deploy": "partykit deploy party/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mail-eth/fragments.git"
+  },
+  "keywords": ["anonymous", "stories", "chat"],
+  "author": "mail-eth",
+  "license": "MIT",
+  "dependencies": {
+    "partykit": "^0.0.115"
+  }
+}

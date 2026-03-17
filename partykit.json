@@ -1,0 +1,5 @@
+{
+  "name": "fragments-chat",
+  "main": "party/server.ts",
+  "compatibilityDate": "2025-03-17"
+}

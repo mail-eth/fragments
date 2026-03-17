@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragments - Anonymous Stories</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Platform cerita anonim. Share your story. Find your voice. Stay anonymous." />
+    <meta name="theme-color" content="#0F0F23" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fragments - Anonymous Stories" />
+    <meta property="og:description" content="Share your story. Find your voice. Stay anonymous." />
+    <meta property="og:image" content="https://fragments-v2.vercel.app/preview.png" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <h1>Fragments</h1>
+        <p class="tagline">Anonymous Stories Platform</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="stories">
+            <span class="tab-icon">📖</span>
+            <span class="tab-text">Stories</span>
+        </button>
+        <button class="nav-tab" data-tab="write">
+            <span class="tab-icon">✍️</span>
+            <span class="tab-text">Write</span>
+        </button>
+        <button class="nav-tab" data-tab="chat">
+            <span class="tab-icon">💬</span>
+            <span class="tab-text">Chat</span>
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- Stories Tab -->
+        <section id="stories-tab" class="tab-content">
+            <div class="section-header">
+                <h2>Cerita Terbaru</h2>
+                <p>Baca cerita dari komunitas</p>
+            </div>
+            <div class="stories-grid" id="stories-container">
+                <div class="empty-state" id="stories-empty">
+                    <span class="empty-icon">📝</span>
+                    <p>Belum ada cerita</p>
+                    <small Jadilah yang pertama!</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Write Tab -->
+        <section id="write-tab" class="tab-content hidden">
+            <div class="form-card">
+                <h2>Bagikan Ceritamu</h2>
+                <p class="form-subtitle">Identitasmu aman di sini</p>
+                
+                <div class="form-group">
+                    <textarea 
+                        id="story-content" 
+                        placeholder="Tulis cerita, pikiran, mimpi, atau pengalamanmu..."
+                        maxlength="2000"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="char-count">0</span>/2000
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <div class="category-grid">
+                        <button class="category-btn" data-category="dreams">🌟 Mimpi</button>
+                        <button class="category-btn" data-category="fears">😨 Ketakutan</button>
+                        <button class="category-btn" data-category="hope">💫 Harapan</button>
+                        <button class="category-btn" data-category="experience">� pengalaman</button>
+                    </div>
+                </div>
+                
+                <button class="btn-primary" onclick="app.postStory()">
+                    📤 Publikasikan
+                </button>
+            </div>
+        </section>
+
+        <!-- Chat Tab -->
+        <section id="chat-tab" class="tab-content hidden">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>💬 Quick Chat</h2>
+                    <span class="online-badge" id="online-count">0 online</span>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-system">
+                        <p>Selamat datang di Quick Chat! 🎉</p>
+                        <small>Chat real-time tanpa batas</small>
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <div class="mood-selector">
+                        <button class="mood-btn selected" data-mood="😊">😊</button>
+                        <button class="mood-btn" data-mood="😢">😢</button>
+                        <button class="mood-btn" data-mood="🔥">🔥</button>
+                        <button class="mood-btn" data-mood="💪">💪</button>
+                        <button class="mood-btn" data-mood="🤔">🤔</button>
+                    </div>
+                    <div class="chat-input-row">
+                        <input 
+                            type="text" 
+                            id="chat-input" 
+                            placeholder="Ketik pesan..."
+                            maxlength="500"
+                        >
+                        <button class="btn-send" onclick="app.sendChat()">➤</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Fragments © 2026 • Made with 💜</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js" type="module"></script>
+</body>
+</html>
